@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABCMeta, abstractmethod
-#import OutputLevelManager
+from plugins.common.OutputLevelManager import OutputLevelManager
 
 class BaseMessenger(object):
     """メッセージ基底クラス"""

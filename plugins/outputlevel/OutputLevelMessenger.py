@@ -9,7 +9,7 @@ class OutputLevelMessenger(BaseMessenger):
 
     __SETLEVEL_USAGE = "Usage:setlevel 出力レベル"
 
-    __COMMAND_STR = "setlevel "
+    __COMMAND_DISP = "displevel"
 
     setlevel = 10
     """コマンドで受け取った設定する出力レベル"""
@@ -37,6 +37,17 @@ class OutputLevelMessenger(BaseMessenger):
         OutputLevelManager.set_output_level(self.setlevel)
 
         return "出力レベルを%dに設定しました" % (self.setlevel)
+
+    def exec_disp(self, message):
+        """
+        出力レベル表示コマンド実行
+        """
+
+        if not self.__COMMAND_DISP == message:
+            return "コマンドが不正です\n" + self.__SETLEVEL_USAGE
+
+        level = OutputLevelManager.get_output_level()
+        return "現在の出力レベルは%dです" % (level)
 
     def get_errmsg_about_arg(self, arg):
         """

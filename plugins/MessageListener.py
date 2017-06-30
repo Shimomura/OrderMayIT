@@ -7,7 +7,13 @@ from slackbot.bot import default_reply
 from plugins.outputlevel.OutputLevelMessenger import OutputLevelMessenger
 
 @respond_to(r'^setlevel\s+\S.*')
-def mention_func(message):
+def listen_set(message):
     output_level_msg = OutputLevelMessenger()
     rep = output_level_msg.exec_set(message.body['text'])
+    message.reply(rep)
+
+@respond_to('displevel')
+def listen_set(message):
+    output_level_msg = OutputLevelMessenger()
+    rep = output_level_msg.exec_disp(message.body['text'])
     message.reply(rep)

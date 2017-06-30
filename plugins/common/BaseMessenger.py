@@ -3,8 +3,8 @@
 from abc import ABCMeta, abstractmethod
 import OutputLevelManager
 
-class BaseMention(Object):
-    """メンション基底クラス"""
+class BaseMessenger(Object):
+    """メッセージ基底クラス"""
 
     __metaclass__ = ABCMeta
 

@@ -11,7 +11,7 @@ class BaseMessenger(object):
     __message_output_level = 11
     """
     メッセージの出力レベル
-    デフォルトは１１：一切出力なし
+    デフォルトは「１１：一切出力なし」
     """
 
     @abstractmethod
@@ -41,7 +41,7 @@ class BaseMessenger(object):
         メッセージが出力可能か出力レベル設定をチェックする
         return: True:出力可能 False:出力不可
         """
-        if __mention_output_level <= OutputLevelManager.get_output_level():
+        if __message_output_level <= OutputLevelManager.get_output_level():
             return True
 
         return False

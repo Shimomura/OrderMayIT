@@ -4,12 +4,22 @@ from plugins.common.BaseMessenger import BaseMessenger
 from plugins.common.OutputLevelManager import OutputLevelManager
 
 class OutputLevelMessenger(BaseMessenger):
+    """メッセージ出力レベルに関するコマンドの管理クラス"""
 
     __OUTPUT_LEVEL = 0
+    """
+    自クラスのメッセージ出力レベル
+    このクラスのみ例外的に0とし常に出力する
+    """
 
     __SETLEVEL_USAGE = "Usage:setlevel 出力レベル"
+    """setlevelコマンドのUsage"""
+
+    __DISPLEVEL_USAGE = "Usage:displevel"
+    """displevelコマンドのUsage"""
 
     __COMMAND_DISP = "displevel"
+    """displevelコマンドの文字列"""
 
     setlevel = 10
     """コマンドで受け取った設定する出力レベル"""
@@ -28,9 +38,12 @@ class OutputLevelMessenger(BaseMessenger):
     def exec_set(self, message):
         """
         出力レベル設定コマンド実行
+        param message:受け取ったメッセージの文字列
+        return:botが応答するメッセージ
         """
         errmsg = self.get_errmsg_about_arg(message)
 
+        # エラーがある場合はエラーメッセージを返す
         if errmsg:
             return errmsg
 
@@ -41,6 +54,8 @@ class OutputLevelMessenger(BaseMessenger):
     def exec_disp(self, message):
         """
         出力レベル表示コマンド実行
+        param message:受け取ったメッセージの文字列
+        return:botが応答するメッセージ
         """
 
         if not self.__COMMAND_DISP == message:
@@ -49,11 +64,16 @@ class OutputLevelMessenger(BaseMessenger):
         level = OutputLevelManager.get_output_level()
         return "現在の出力レベルは%dです" % (level)
 
-    def get_errmsg_about_arg(self, arg):
+    def get_errmsg_about_arg(self, msg):
         """
         入力コマンドチェック処理
+        param msg:受け取ったメッセージの文字列
+        return:エラーありの場合はエラーメッセージ
+               エラーなしの場合は空文字
         """
-        args = arg.split()
+        super().check_output_level()
+
+        args = msg.split()
 
         if len(args) == 1:
              return "出力レベルが未入力です\n" + self.__SETLEVEL_USAGE

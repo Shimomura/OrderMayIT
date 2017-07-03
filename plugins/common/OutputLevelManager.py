@@ -12,7 +12,7 @@ class OutputLevelManager:
         出力レベルを設定する
         param level:設定する出力レベル
         """
-        if type(level) not int:
+        if not isinstance(level, int):
             raise Exception("出力レベルに整数以外を設定しようとしました level:" + str(level))
         if level > 10 or level < 0:
             raise Exception("出力レベルに設定できるのは１以上１０以下の整数です level:" +str(level))

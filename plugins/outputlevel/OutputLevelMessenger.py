@@ -26,14 +26,7 @@ class OutputLevelMessenger(BaseMessenger):
 
     def __init__(self):
         """コンストラクタ"""
-        self.set_message_level(self.__OUTPUT_LEVEL)
-
-    def set_message_level(self, level):
-        """
-        メッセージの出力レベル設定
-        param level:設定するメッセージ出力レベル
-        """
-        super().set_message_output_level(level)
+        BaseMessenger.__init__(self, self.__OUTPUT_LEVEL)
 
     def exec_set(self, message):
         """
@@ -41,10 +34,16 @@ class OutputLevelMessenger(BaseMessenger):
         param message:受け取ったメッセージの文字列
         return:botが応答するメッセージ
         """
+
+        # メッセージレベル出力可能チェック
+        if not self.can_output_level():
+            return ""
+
+        # コマンドチェック
         errmsg = self.get_errmsg_about_arg(message)
 
-        # エラーがある場合はエラーメッセージを返す
-        if errmsg:
+        # エラーがある場合はエラーメッセージを出力
+        elif errmsg:
             return errmsg
 
         OutputLevelManager.set_output_level(self.setlevel)
@@ -71,7 +70,6 @@ class OutputLevelMessenger(BaseMessenger):
         return:エラーありの場合はエラーメッセージ
                エラーなしの場合は空文字
         """
-        super().check_output_level()
 
         args = msg.split()
 

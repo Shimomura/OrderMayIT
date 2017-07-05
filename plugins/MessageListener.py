@@ -21,3 +21,11 @@ def listen_set(message):
     rep = output_level_msg.exec_disp(message.body['text'])
     if not rep:
         message.reply(rep)
+
+@respond_to(r'^settask\s+\S.*')
+def listen_set(message):
+    """タスク設定コマンド"""
+    output_level_msg = OutputLevelMessenger()
+    rep = output_level_msg.exec_set(message.body['text'])
+    if not rep:
+        message.reply(rep)

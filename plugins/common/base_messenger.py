@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from plugins.common.OutputLevelManager import OutputLevelManager
+from plugins.common.output_level_manager import OutputLevelManager
 
 class BaseMessenger(object):
     """メッセンジャー基底クラス"""

@@ -1,19 +1,28 @@
 # -*- coding: utf-8 -*-
 
-from plugins.common.BaseMessenger import BaseMessenger
-from plugins.common.OutputLevelManager import OutputLevelManager
+from plugins.common.base_messenger import BaseMessenger
+from plugins.common.output_level_manager import OutputLevelManager
 
-class TaskMessenger(BaseMessenger):
-    """タスク管理に関するコマンドの管理クラス"""
+class OutputLevelMessenger(BaseMessenger):
+    """メッセージ出力レベルに関するコマンドの管理クラス"""
 
-    __OUTPUT_LEVEL = 2
+    __OUTPUT_LEVEL = 0
     """
     自クラスのメッセージ出力レベル
     このクラスのみ例外的に0とし常に出力する
     """
 
-    __SETTASK_USAGE = "Usage:taskset タスク名 [-u 担当者] [-p 進捗]"
-    """settaskコマンドのUsage"""
+    __SETLEVEL_USAGE = "Usage:setlevel 出力レベル"
+    """setlevelコマンドのUsage"""
+
+    __DISPLEVEL_USAGE = "Usage:displevel"
+    """displevelコマンドのUsage"""
+
+    __COMMAND_DISP = "displevel"
+    """displevelコマンドの文字列"""
+
+    setlevel = 10
+    """コマンドで受け取った設定する出力レベル"""
 
     def __init__(self):
         """コンストラクタ"""
@@ -21,25 +30,41 @@ class TaskMessenger(BaseMessenger):
 
     def exec_set(self, message):
         """
-        タスクル設定コマンド実行
+        出力レベル設定コマンド実行
         param message:受け取ったメッセージの文字列
         return:botが応答するメッセージ
         """
 
+        print('レベルチェック')
         # メッセージレベル出力可能チェック
         if not self.can_output_level():
             return ""
 
+        print('レベルチェック')
         # コマンドチェック
         errmsg = self.get_errmsg_about_arg(message)
-
+        print('エラーメッセージ:' + errmsg)
         # エラーがある場合はエラーメッセージを出力
-        elif errmsg:
+        if errmsg:
             return errmsg
 
         OutputLevelManager.set_output_level(self.setlevel)
 
-        return "設定しました" % (self.setlevel)
+        print('return')
+        return "出力レベルを%dに設定しました" % (self.setlevel)
+
+    def exec_disp(self, message):
+        """
+        出力レベル表示コマンド実行
+        param message:受け取ったメッセージの文字列
+        return:botが応答するメッセージ
+        """
+
+        if not self.__COMMAND_DISP == message:
+            return "コマンドが不正です\n" + self.__DISPLEVEL_USAGE
+
+        level = OutputLevelManager.get_output_level()
+        return "現在の出力レベルは%dです" % (level)
 
     def get_errmsg_about_arg(self, msg):
         """

@@ -4,7 +4,7 @@ from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
 
-from plugins.common.OutputLevelManager import OutputLevelManager
+from plugins.common.output_level_manager import OutputLevelManager
 
 @respond_to('こんにちは')
 def listen_set(message):

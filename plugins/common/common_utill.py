@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from plugins.common.invalid_command_exception import InvalidCommandException
+
 def split_options(options):
     """
     コマンドのオプションを分割します。
@@ -29,14 +31,14 @@ def split_options(options):
             else:
                 if not tmp_key:
                     # key未指定でvalueが指定された場合はエラー
-                    raise Exception("コマンドが不正")
+                    raise InvalidCommandException("コマンドが不正")
                 tmp_value.append(opt)
                 lasttime_is_value = True
         else:
             # key⇨keyときた場合
             if opt.startswith("-") and len(opt) == 2:
                 # 連続でkeyを受け取ったらエラー
-                raise Exception("コマンドが不正")
+                raise InvalidCommandException("コマンドが不正")
             # key⇨valueときた場合
             else:
                 tmp_value.append(opt)
@@ -46,6 +48,6 @@ def split_options(options):
     if tmp_key and len(tmp_value) > 0:
         optionDic[tmp_key] = tmp_value
     else:
-        raise Exception("コマンドが不正")
+        raise InvalidCommandException("コマンドが不正")
 
     return optionDic

@@ -52,8 +52,6 @@ class TaskManager(object):
 
         return None
 
-        return filter(lambda t:t.task_name == name, self.task_list)
-
     def get_task(self, name, person, progress):
         """タスクリスト内から一致するタスク名のタスクを取得します"""
 
@@ -64,12 +62,9 @@ class TaskManager(object):
         , self.task_list))
 
         if target:
-            return target
+            return target[0]
 
         return None
-
-        return filter(lambda t:t.task_name == name, self.task_list)
-
     def exist_task(self, name):
         """タスクがタスクリストに存在するか取得します"""
 

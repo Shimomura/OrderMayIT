@@ -17,3 +17,8 @@ def exec_mode(message):
         ModeManager.now_mode = ProcessModeEnum.Normal
         messenger = MemoMessenger()
         return messenger.exec_disp(message)
+
+    elif mode is ProcessModeEnum.MemoDel:
+        ModeManager.now_mode = ProcessModeEnum.Normal
+        messenger = MemoMessenger()
+        return messenger.exec_del(message)

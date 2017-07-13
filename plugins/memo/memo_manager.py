@@ -25,12 +25,16 @@ class MemoManager(object):
         """メモリストにメモを追加します"""
 
         num = len(self.memo_list) + 1
+
+        if(self.exist_memo(num)):
+            raise Exception("登録済みのメモ番号")
+
         # TODO タイムゾーンを考慮
         date = datetime.datetime.today()
         memo = MemoInfo(num, content, date)
         self.memo_list.append(memo)
 
-    def del_task(self, num):
+    def del_memo(self, num):
         """メモリストからメモを削除します"""
 
         if not self.exist_memo(num):
@@ -40,10 +44,16 @@ class MemoManager(object):
 
         self.memo_list.remove(target)
 
+        # メモ番号を採番、削除のタイミングのみ採番し直せばメモ番号は一意となる想定
+        self.memo_list = sorted(self.memo_list,key = lambda l:int(l.memo_No))
+        for memo in self.memo_list:
+            memo.memo_No = self.memo_list.index(memo) + 1
+        # パフォーマンスはよくないけど、そんなにたくさんメモ残さないよね・・・？
+
     def get_memo(self, num):
         """メモリスト内から一致するメモNoのメモを取得します"""
 
-        if not num.isdigit():
+        if num is str and not num.isdigit():
             return None
 
         num_int = int(num)
@@ -57,7 +67,7 @@ class MemoManager(object):
     def exist_memo(self, num):
         """メモがメモリストに存在するか取得します"""
 
-        target = list(filter(lambda m:m.memo_No == num, self.memo_list))
+        target = self.get_memo(num)
         if target:
             return True
         return False

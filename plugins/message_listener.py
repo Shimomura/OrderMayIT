@@ -70,3 +70,12 @@ def listen_set(message):
     messenger = MemoMessenger()
     msg += messenger.exec_list()
     message.reply(msg)
+
+@respond_to(r'^メモ削除')
+def listen_set(message):
+    """メモ削除モードに切り替え"""
+    ModeManager.now_mode = ProcessModeEnum.MemoDel
+    msg = "どのメモを削除しますか？\n"
+    messenger = MemoMessenger()
+    msg += messenger.exec_list()
+    message.reply(msg)

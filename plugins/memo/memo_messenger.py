@@ -80,3 +80,24 @@ class MemoMessenger(BaseMessenger):
         print("メモ数" + str(len(manager.memo_list)))
 
         return "メモしました。"
+
+    def exec_del(self, message):
+        """
+        メモ削除実行
+        param message:受け取ったメッセージの文字列
+        return:botが応答するメッセージ
+        """
+
+        # メッセージレベル出力可能チェック
+        if not self.can_output_level():
+            return ""
+
+        manager = MemoManager()
+
+        if not manager.exist_memo(message):
+            return "該当するメモはありません。"
+
+        #TODO キャスト可能かチェック
+        manager.del_memo(message)
+
+        return "No." + str(message) + "のメモを削除しました"
